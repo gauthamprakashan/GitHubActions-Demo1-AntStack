@@ -1,4 +1,4 @@
-name: Upload Website-G
+name: Upload Website
 
 on:
   push:
@@ -8,21 +8,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-        - name: Checkout
-          uses: actions/checkout@main
+    - uses: actions/checkout@main
 
-
-        - name: install-aws-cli-action    
-          uses: unfor19/install-aws-cli-action@v1
-        
-        
-        
-
-
-        - name: S3 Sync
-          env:
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        
-          run: aws s3 sync . s3://urlshortnerg --exclude '.git/*' --debug
+    - uses: jakejarvis/s3-sync-action@main
+      with:
+        args: --acl public-read --follow-symlinks --delete --exclude '.git/*'
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
