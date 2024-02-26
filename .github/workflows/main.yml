@@ -13,4 +13,4 @@ jobs:
           uses: actions/checkout@main
 
         - name: S3 Sync
-          uses: aws s3 sync . s3://urlshortnerg --exclude '.git/*'
+          run: aws s3 sync . s3://urlshortnerg --exclude '.git/*'
