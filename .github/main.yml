@@ -1,10 +1,7 @@
 on:
   push:
     branches:
-<<<<<<< HEAD:.github/workflows/main2.yml
-=======
       - main
->>>>>>> main:.github/workflows/main.yml
       - dev
 
 jobs:
@@ -19,23 +16,15 @@ jobs:
 
 
     steps:
-<<<<<<< HEAD:.github/workflows/main2.yml
-    - uses: actions/checkout@master
-=======
     - uses: actions/checkout@v2
       with:
         ref: ${{matrix.branch}}
->>>>>>> main:.github/workflows/main.yml
 
     - uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --exclude '.git/*'
       env:
-<<<<<<< HEAD:.github/workflows/main2.yml
-        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_DEV }}
-=======
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_ ${{ matrix.branch }} }}
->>>>>>> main:.github/workflows/main.yml
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
