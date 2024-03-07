@@ -14,17 +14,19 @@ jobs:
           - main
           - dev
 
-
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: ${{matrix.branch}}
+        ref: ${{ matrix.branch }}
 
-    - uses: jakejarvis/s3-sync-action@master
+    - name: Set S3 Bucket Secret
+      run: echo "S3_BUCKET_SECRET=AWS_S3_BUCKET_${{ matrix.branch }}" >> $GITHUB_ENV
+
+    - name: Deploy to S3 Bucket
+      uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks --delete --exclude '.git/*'
       env:
-        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_ ${{ matrix.branch }} }}
+        AWS_S3_BUCKET: ${{ secrets[env.S3_BUCKET_SECRET] }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
